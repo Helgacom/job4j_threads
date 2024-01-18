@@ -35,9 +35,9 @@ public class FileGet implements Runnable {
                     if (1000 > diff) {
                         Thread.sleep(1000 - diff);
                     }
+                    bytesCount = 0;
+                    downloadAt = System.currentTimeMillis();
                 }
-                bytesCount = 0;
-                downloadAt = System.currentTimeMillis();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,14 +66,14 @@ public class FileGet implements Runnable {
     }
 
     public static void validate(String[] args) {
+        if (args.length < 3) {
+            throw new IllegalArgumentException("Missing argument(s)");
+        }
         if (!isValidURL(args[0])) {
             throw new IllegalArgumentException("URL isn't valid");
         }
         if (Integer.parseInt(args[1]) <= 0) {
             throw new IllegalArgumentException("Speed isn't valid");
-        }
-        if (args.length < 3) {
-            throw new IllegalArgumentException("Missing argument(s)");
         }
     }
 }
