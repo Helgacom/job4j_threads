@@ -9,13 +9,16 @@ import java.util.Queue;
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
 
-    private final int maxSize;
+    private int maxSize;
 
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
 
     public SimpleBlockingQueue(int maxSize) {
         this.maxSize = maxSize;
+    }
+
+    public SimpleBlockingQueue() {
     }
 
     public synchronized void offer(T value) throws InterruptedException {
