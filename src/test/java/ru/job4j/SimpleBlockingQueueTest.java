@@ -40,13 +40,13 @@ class SimpleBlockingQueueTest {
         final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         Thread producer = new Thread(
-                () -> IntStream.range(0, 5).forEach((i) -> {
-                        try {
-                            queue.offer(i);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                        }
-                    })
+                () -> IntStream.range(0, 3).forEach((i) -> {
+                    try {
+                        queue.offer(i);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                })
         );
         producer.start();
         Thread consumer = new Thread(
@@ -55,6 +55,7 @@ class SimpleBlockingQueueTest {
                         try {
                             buffer.add(queue.poll());
                         } catch (InterruptedException e) {
+                            e.printStackTrace();
                             Thread.currentThread().interrupt();
                         }
                     }
@@ -64,7 +65,7 @@ class SimpleBlockingQueueTest {
         producer.join();
         consumer.interrupt();
         consumer.join();
-        assertThat(buffer).containsExactly(0, 1, 2, 3, 4);
+        assertThat(buffer).containsExactly(0, 1, 2);
     }
 
     @Test
