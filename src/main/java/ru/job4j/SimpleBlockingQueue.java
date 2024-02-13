@@ -9,7 +9,7 @@ import java.util.Queue;
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
 
-    private int maxSize;
+    private int maxSize = 10;
 
     @GuardedBy("this")
     private Queue<T> queue = new LinkedList<>();
